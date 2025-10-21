@@ -1,0 +1,693 @@
+:root {
+  --mostaza: #f39c12;
+  --mostaza-dark: #e08e0b;
+  --accent: #ff8a00;
+  --bg: #fbf9f7;
+  --card: #fff;
+  --muted: #777;
+  --shadow: 0 6px 18px rgba(19,19,19,0.06);
+  --radius: 12px;
+  --pad: 18px;
+  --pending:  #f7b731;   /* Amarillo mostaza suave */
+  --progress:  #e67e22;  /* Naranja medio cálido */
+  --ready: #2ecc71;     /* Verde éxito */
+  --delivered: #3498db; /* Azul profesional */
+  --cancel: #ef4444;    /* Rojo cancelado */
+  --closed:  #95a5a6; 
+  --today: #940719;
+}
+
+
+
+body {
+  background: var(--bg);
+  font-family: "Quicksand", sans-serif;
+  color: #222;
+  margin: 0;
+}
+
+/* ---------- CONTENEDOR GENERAL ---------- */
+.container {
+  max-width: 1750px;
+  margin: 80px auto;
+  padding: 0 30PX;
+}
+
+/* ---------- TARJETAS DE ESTADOS ---------- */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  margin-top: -10px;
+  margin-bottom: 40px;
+}
+.stat {
+  flex: 1;
+  min-width: 210px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+}
+
+/* ---------- BORDES Y DEGRADADOS SEGÚN ESTADO ---------- */
+.stat:nth-child(1) {
+  border-left: 5px solid var(--pending);
+}
+.stat:nth-child(2) {
+  border-left: 5px solid var(--progress);
+}
+.stat:nth-child(3) {
+  border-left: 5px solid var(--ready);
+}
+.stat:nth-child(4) {
+  border-left: 5px solid var(--delivered);
+}
+.stat:nth-child(5) {
+  border-left: 5px solid var(--closed);
+}
+.stat:nth-child(6) {
+  border-left: 5px solid var(--today);
+}
+/*/ ------------ SIN ORDENES ------------*/
+.empty-state {
+  display: none; /* oculto por defecto */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+  margin-top: 40px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.empty-state i {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  color: #f5b700;
+  animation: bounce 1.5s infinite;
+}
+
+.empty-state h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+/* Animación bounce para el icono */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ---------- TEXTO E ÍCONOS ---------- */
+.label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.value {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* ---------- ÍCONOS ---------- */
+.stats i {
+  background: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.03);
+}
+
+.stats .lucide-clock-3 {
+  stroke: var(--pending);
+}
+.stats .lucide-chef-hat {
+  stroke: var(--progress);
+}
+.stats .lucide-circle-check-big {
+  stroke: var(--ready);
+}
+.stats .lucide-package-check {
+  stroke: var(--delivered);
+}
+.stats .lucide-chart-line {
+  stroke: var(--today);
+}
+
+.stats i svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.8;
+}
+
+.stats .lucide-clock-3 { stroke: var(--pending); }
+.stats .lucide-chef-hat { stroke: var(--progress); }
+.stats .lucide-circle-check-big { stroke: var(--ready); }
+.stats .lucide-map-pin-check { stroke: var(--delivered); }
+.stats .lucide-user-round-check{ stroke: var(--closed); }
+.stats .lucide-chart-line { stroke: var(--today); }
+@media (max-width: 768px) { .stats { flex-direction: column; gap: 15px; align-items: center; } }
+
+
+
+/* ---------- ORDERS GRID ---------- */
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+/* ---------- TEXT HELPERS ---------- */
+.small { font-size: 0.85rem; color: var(--muted); }
+.muted { color: var(--muted); }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+/* ---------- BADGE DENTRO DE ORDER-CARD ---------- */
+
+.order-card .badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    text-align: center;
+    margin-left: 4px;
+}
+
+/* Colores de estados */
+.badge.pending {
+  background: var(--pending);
+  color: #3b2a05;
+}
+
+.badge.progress {
+  height: 1.3rem;
+  background: var(--progress);
+  color: #fff;
+  
+}
+
+.badge.ready {
+  background: var(--ready);
+  color: #fff;
+}
+
+.badge.delivered {
+  background: var(--delivered);
+  color: #fff;
+}
+
+.badge.cancel {
+  background: var(--cancel);
+  color: #fff;
+}
+
+/*---------- ETIQUETAS ---------------*/
+.filtros .form-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+/*---------- INPUTS Y SELECTS ---------------*/
+.filtros .form-control,
+.filtros .form-select {
+  border: 1.5px solid #e0d7b8;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filtros .form-control:focus,
+.filtros .form-select:focus {
+  border-color: #f5b700;
+  box-shadow: 0 0 0 3px rgba(245, 183, 0, 0.25);
+  outline: none;
+}
+
+/*---------- CONTENEDOR DE FILTROS ---------------*/
+.filtros {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  line-height: 1;
+}
+
+
+/*---------- INPUTS Y SELECT MODERNOS ---------------*/
+.filtros input,
+.filtros select {
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 10px 14px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.filtros input:focus,
+.filtros select:focus {
+  border-color: #f39c12;
+  box-shadow: 0 0 8px rgba(243, 156, 18, 0.3);
+}
+
+/*---------- BOTONES MODERNOS ---------------*/
+.btn-filtrar,
+.btn-limpiar {
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  border: none;
+}
+
+/* Botón Filtrar */
+.btn-filtrar {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: #fff;
+}
+
+.btn-filtrar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(243,156,18,0.45);
+}
+
+/* Botón Limpiar */
+.btn-limpiar {
+  background: #eee;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn-limpiar:hover {
+  background: #f5f5f5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/*---------- ICONOS DENTRO DE BOTONES ---------------*/
+.btn-filtrar i,
+.btn-limpiar i {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.btn-filtrar:hover i,
+.btn-limpiar:hover i {
+  transform: scale(1.1);
+}
+
+/*---------- ADAPTACIÓN RESPONSIVA ---------------*/
+@media (max-width: 768px) {
+  .filtros .row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-limpiar {
+    width: 100% !important;
+  }
+}
+
+
+/*boton de edicion de orden*/
+.btn-edit {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #f4b400;
+    transition: transform 0.2s;
+    
+    /* MODIFICACIONES CRUCIALES DE POSICIÓN Y Z-INDEX: */
+    position: relative; /* Necesario para que z-index funcione */
+    z-index: 50;        /* Valor alto para forzarlo al frente de la tarjeta */
+}
+.order-footer-actions {
+    display: flex;
+    justify-content: space-between; /* Mueve el primer elemento (Total) a la izquierda y el último (Botón) a la derecha */
+    align-items: center; /* Alinea verticalmente el total y el botón */
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px dashed #eee; /* Separador visual */
+}
+.order-head .btn-edit {
+    display: none; /* Aseguramos que no se muestre si lo agregaste accidentalmente */
+}
+/* MODALES */
+.modal-editar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* ¡Asegura que display: flex esté aquí para mostrar el contenido! */
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Y esta para que desaparezca COMPLETAMENTE */
+.modal-editar.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden; /* Garantiza que desaparece del flujo DOM */
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  top: 0;
+  left: 0;
+}
+.modal-content {
+  z-index: 1001;
+}
+.modal-content {
+    background: var(--card);
+    border-radius: var(--radius);
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1001;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.modal-editar.hidden .modal-content {
+    transform: translateY(-20px);
+}
+
+.modal-header {
+    padding: var(--pad);
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.5rem;
+    margin: 0;
+    color: #333;
+}
+.modal-header p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 4px 0 0 0;
+}
+
+.btn-cerrar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--muted);
+    transition: color 0.2s;
+}
+.btn-cerrar:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: var(--pad);
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: var(--pad);
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-total {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+}
+
+/* BOTONES PRIMARIO/SECUNDARIO */
+.btn-primario, .btn-secundario {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-primario {
+    background: var(--mostaza);
+    color: #fff;
+}
+.btn-primario:hover {
+    background: var(--mostaza-dark);
+}
+
+.btn-secundario {
+    background: #eee;
+    color: #333;
+}
+.btn-secundario:hover {
+    background: #ddd;
+}
+
+/* GRIDS DE PLATOS */
+.grid-platos {
+    display: grid;
+    flex-direction: column;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-top: 12px;
+    justify-content: center; /* centra las cards si hay pocas */
+    
+}
+
+/* ITEM PLATO ACTUAL */
+.plato-actual, .plato-disponible {
+    display: grid;
+    grid-template-columns: 1fr auto auto; /* Nombre | Cantidad | Botón/Precio */
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.plato-actual {
+    grid-template-columns: 1fr auto auto 40px; /* Nombre | Cantidad | Precio | Eliminar */
+    gap: 15px;
+}
+
+.plato-nombre {
+    font-weight: 600;
+    color: #444;
+}
+
+.plato-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
+
+.btn-cantidad {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-cantidad:hover {
+    background: #eee;
+}
+
+.btn-eliminar {
+    border: none;
+    background: transparent;
+    color: var(--cancel);
+    cursor: pointer;
+}
+.btn-eliminar:hover {
+    transform: scale(1.1);
+}
+
+/* BOTÓN AGREGAR MÁS PLATOS */
+.btn-agregar {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px dashed #f39c1280;
+    background: #fff8e1;
+    color: var(--mostaza-dark);
+    font-weight: 600;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-agregar:hover {
+    background: #ffe082;
+    border-color: var(--mostaza-dark);
+}
+
+/* ITEM PLATO DISPONIBLE */
+.plato-disponible {
+    grid-template-columns: 1fr auto;
+    gap: 15px;
+}
+.plato-info {
+    display: flex;
+    flex-direction: column;
+}
+.plato-descripcion {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+.plato-precio-disp {
+    font-weight: 600;
+    color: var(--mostaza-dark);
+}
+
+.plato-agregar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.input-cantidad {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn-seleccionar {
+    background: var(--ready);
+    color: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-seleccionar:hover {
+    background: #27ae60;
+}
+
+
+.modal-editar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.modal-editar.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.btn-cerrar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+

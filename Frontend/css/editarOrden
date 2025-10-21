@@ -1,0 +1,50 @@
+body {
+  font-family: "Quicksand", sans-serif;
+  background: #fbf9f7;
+  color: #222;
+}
+
+h2, h4 { font-weight: 600; }
+
+.grid-platos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item-block {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid #eee;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-qty {
+  width: 60px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 4px 6px;
+}
+
+.edit-note {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 6px;
+  resize: vertical;
+}
+
+.total {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.acciones { margin-top: 20px; }

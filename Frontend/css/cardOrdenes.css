@@ -1,0 +1,177 @@
+:root {
+  --color-bg: #ffffff;
+  --color-border: #eaeaea;
+  --color-text: #333;
+  --color-subtext: #666;
+  --color-mostaza: #f4b400;
+  --color-mostaza-dark: #d8a200;
+  --color-pending:  #f7b731;
+  --color-in-progress: #e67e22;
+  --color-ready: #2ecc71;
+  --color-delivery: #3498db;
+  --color-closed:#95a5a6;
+  --color-cancelled: #e74c3c;
+}
+
+/* 🌟 CARD GENERAL */
+.order-card {
+  background: var(--color-bg);
+  border-radius: 18px;
+  padding: 18px 22px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+  border: 1px solid var(--color-border);
+  margin-bottom: 22px;
+  transition: all 0.25s ease-in-out;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+/* 🧾 CABECERA */
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.order-id {
+  font-weight: 600;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.order-id svg {
+  color: var(--color-mostaza);
+  width: 18px;
+  height: 18px;
+}
+
+/* 🕒 CUERPO */
+.order-body p {
+  margin: 8px 0;
+  color: var(--color-subtext);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-body svg {
+  color: var(--color-mostaza);
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+/* 💰 TOTAL */
+.order-total {
+  font-weight: bold;
+  margin-top: 10px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 10px;
+  font-size: 1rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 🍽️ ITEMS */
+.item-block {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--color-mostaza);
+  background: #fafafa;
+  border-radius: 10px;
+  position: relative;
+}
+
+
+
+.item-block span {
+  color: var(--color-text);
+}
+
+.item-note {
+  font-size: 0.9rem;
+  color: var(--color-subtext);
+  margin-left: 25px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item-note svg {
+  color: var(--color-mostaza);
+  width: 15px;
+  height: 15px;
+}
+
+/* 🏷️ BADGES */
+.badge {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.badge.pending { background: #fff2cc; color: #7a5f00; }
+.badge.progress { background: #fde8a6; color: #8a6900; }
+.badge.ready { background: #e3f8d2; color: #256d1b; }
+.badge.delivery { background: #c9eaff; color:var(--color-delivery); }
+.badge.closed { background: #e4e4e4; color: #444; }
+.badge.cancel { background: #ffe1e1; color: #a11a1a; }
+
+/* 🔘 BOTONES */
+.btn {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.2s ease-in-out, transform 0.1s;
+}
+
+.btn:hover {
+  transform: scale(1.03);
+}
+
+.btn-next {
+  background: none;
+  color: var(--color-mostaza);
+}
+
+.btn-confirm:hover {
+  background: none;
+   color: var(--color-mostaza-dark);
+
+}
+
+.btn-cancel {
+  background: none;
+  color: var(--color-cancelled);
+}
+
+.btn-cancel:hover {
+  background: none;
+  color: #c0392b;
+}
+
+/* 🧭 TIPOS DE ENTREGA Y NOTAS */
+.order-type, .order-note {
+  background: #fffaf0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.93rem;
+}
+
+.order-type strong, .order-note strong {
+  color: var(--color-mostaza-dark);
+}

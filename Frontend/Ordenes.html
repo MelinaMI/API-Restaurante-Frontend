@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de ordenes</title>
+    <link rel="icon" type="image/x-icon" href="Frontend/assets/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/panelDeOrdenes.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/cardOrdenes.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid px-5">
+            <a class="navbar-brand" href="index.html"><img src="./assets/logo.jpg" alt="Logo" class="logo me-2"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0"> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="Menu.html"><i data-lucide="book-open-text"></i>Menú</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="Ordenes.html"><i data-lucide="notebook-pen"></i>Panel de ordenes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--Fin Navbar -->´
+
+    <!-- PANEL HEADING -->
+<section class="orders-header">
+  <div class="container">
+    <h2>Panel de Órdenes</span></h2>
+    <p>Gestiona y monitorea todas las órdenes</p>
+  </div>
+</section>
+
+  <div class="container">
+    <!-- Estados -->
+    <div class="stats">
+      <div class="stat">
+        <div class="label"><i data-lucide="clock-3"></i> Pendientes</div>
+        <div class="value" id="stat-active">0</div>
+      </div>
+      <div class="stat">
+        <div class="label"><i data-lucide="chef-hat"></i> En Preparación</div>
+        <div class="value" id="stat-prep">0</div>
+      </div>
+      <div class="stat">
+        <div class="label"><i data-lucide="circle-check-big"></i> Listas</div>
+        <div class="value" id="stat-ready">0</div>
+      </div>
+      <div class="stat">
+        <div class="label"><i data-lucide ="map-pin-check"></i> Entregadas</div>
+        <div class="value" id="stat-delivered">0</div>
+      </div>
+      <div class="stat">
+        <div class="label"><i data-lucide ="user-round-check"></i> Cerradas </div>
+        <div class="value" id="stat-closed">0</div>
+      </div>
+      <div class="stat">
+        <div class="label"><i data-lucide ="chart-line"></i> Total Hoy</div>
+        <div class="value" id="stat-today">0</div>
+      </div>
+    </div>
+    <!-- Fin Estados -->
+     <!-- Filtros -->
+    <div class="filtros card p-3 mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+        <label for="desde" class="form-label">Desde</label>
+        <input type="date" id="desde" class="form-control">
+        </div>
+        <div class="col-md-3">
+        <label for="hasta" class="form-label">Hasta</label>
+        <input type="date" id="hasta" class="form-control">
+        </div>
+        <div class="col-md-3">
+        <label for="estado" class="form-label">Estado</label>
+        <select id="estado" class="form-select">
+            <option value="">Todos</option>
+            <option value="Pending">Pendiente</option>
+            <option value="In Progress">En Preparación</option>
+            <option value="Ready">Lista</option>
+            <option value="Delivered">Entregada</option>
+            <option value="Closed">Cerrada</option>
+
+        </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+        <button id="btnFiltrar" class="btn-filtrar w-100">
+            <i data-lucide="filter"></i> Filtrar
+        </button>
+        <button id="btnLimpiar" class="btn-limpiar w-50">
+              <i data-lucide="trash-2"></i> Limpiar
+          </button>
+        </div>
+    </div>
+    </div>
+    <!-- ORDERS -->
+    <div id="orders" class="orders-grid"></div>
+    <div class="empty-state"><i data-lucide="chef-hat"></i>
+        <h3>No hay órdenes disponibles</h3>
+        <p>Las nuevas órdenes aparecerán aquí</p>
+    </div>
+  </div>
+  
+    <!-- Bootstrap JS Bundle (incluye Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JS -->
+    <script src="https://unpkg.com/lucide"></script>
+    <script src="../js/ordenes.js"></script>
+    <!-- Contenedor de alertas -->
+  <!-- Contenedor de alertas -->
+
+
+
+</body>
+</html>

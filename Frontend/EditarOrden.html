@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Orden</title>
+  <link rel="stylesheet" href="css/editarOrden.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <script src="https://unpkg.com/lucide"></script>
+</head>
+<body>
+
+  <div class="container my-4">
+    <h2>Editar Orden #<span id="orderNumber"></span></h2>
+
+    <section class="orden-info my-3">
+      <p><strong>Tipo de entrega::</strong> <span id="deliveryType"></span></p>
+      <p><strong>Dirección:</strong> <span id="deliverTo"></span></p>
+      <p><strong>Nota general:</strong> <span id="orderNotes"></span></p>
+    </section>
+
+    <section class="platos-actuales my-3">
+      <h4>Platos actuales</h4>
+      <div id="platosActuales" class="grid-platos"></div>
+    </section>
+
+    <section class="platos-disponibles my-3">
+      <h4>Agregar platos</h4>
+      <div id="platosDisponibles" class="grid-platos"></div>
+    </section>
+
+    <div class="total my-3">
+      <strong>Total:</strong> $<span id="totalOrden">0.00</span>
+    </div>
+
+    <div class="acciones d-flex gap-2">
+      <button id="btnGuardarCambios" class="btn btn-primary">Guardar Cambios</button>
+      <a href="Ordenes.html" class="btn btn-secondary">Volver</a>
+    </div>
+  </div>
+
+  <script src="js/editarOrden.js"></script>
+</body>
+</html>

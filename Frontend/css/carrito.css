@@ -1,0 +1,144 @@
+/* -- SIDEBAR CARRITO -- */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+    transition: right 0.3s ease;
+    padding: 20px;
+    z-index: 1050;
+    overflow-y: auto;
+}
+.cart-sidebar.open {
+    right: 0;
+}
+.close-cart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Título principal con ícono */
+.cart-sidebar h2 {
+    font-size: 1.5rem;       
+    font-weight: 700;         
+    color: #333;             
+    display: flex;
+    align-items: center;     
+    gap: 0.5rem;             
+    margin-top: 0;           
+}
+
+/* Icono dentro del h2 */
+.cart-sidebar h2 i {
+    font-size: 1.3rem;       
+    color: #f39c12;           
+}
+
+/* Subtítulo debajo del título */
+.cart-sidebar .subtitle {
+    font-size: 0.85rem;      
+    color: #666;             
+    margin: 0.3rem 0 1rem 0; 
+    line-height: 1.3;        
+}
+
+/* Título de la sección de platos */
+.cart-sidebar h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #444;             
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+/* Contenedor del bloque vacío centrado */
+.cart-sidebar .empty-block {
+    display: flex;
+    flex-direction: column;      /* Apila icono y textos */
+    align-items: center;         /* Centra horizontalmente */
+    justify-content: center;     /* Centra verticalmente */
+    height: calc(50% - 120px);  /* Altura restante del sidebar después de títulos */
+    text-align: center;
+}
+
+/* Icono grande */
+.cart-sidebar .empty-icon {
+    font-size: 4rem;        /* Tamaño grande */
+    color: #ccc;            /* Gris clarito */
+    margin-bottom: 1rem;
+}
+
+/* Mensajes centrados */
+.cart-sidebar .empty-cart,
+.cart-sidebar .add-more {
+    font-size: 0.9rem;      /* Más pequeño */
+    color: #8d8d8d;            /* Gris claro */
+    margin: 0.2rem 0;
+}
+/* Item dentro del carrito */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.cart-item-price {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.2rem 0;
+}
+
+.cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem; 
+}
+
+.cart-item-qty button {
+    border: none;
+    background: #c7c4c4;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 3px 7px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.cart-item-qty button:hover {
+    background: #a9a7a7;
+}
+
+.cart-item-qty span {
+    min-width: 25px; /* asegura que el número no se vea apretado */
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.cart-item-remove {
+    background: transparent;
+    border: none;
+    color: #424141;
+    font-size: 1rem;
+    cursor: pointer;
+}
+/*-- FIN SIDEBAR CARRITO --*/

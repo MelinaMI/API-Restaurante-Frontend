@@ -1,0 +1,745 @@
+body {
+    margin: 0;
+    font-family: "Quicksand", sans-serif;
+    background-color: #F8F7F6;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999; /* para que quede por encima del contenido */
+}
+
+/* Logo */
+.logo { 
+    width: 110px;
+    height: 80%;
+    object-fit: cover;
+}
+
+/*-- NAVBAR --*/
+.container-fluid
+{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+/* Navbar links */
+.navbar-nav .nav-link {
+    margin-left: 20px;
+    display: flex;        
+    align-items: center;    
+    gap: 15px;              
+    font-weight: 500;
+    line-height: 0.2; 
+}
+.nav-link.active {
+    color: #f39c12; /* amarillo para el menú activo */
+    font-weight: 700;
+    border-bottom: 2px solid #f39c12;
+}
+
+.nav-link.inactive {
+    color: #6c757d; /* gris para los demás */
+    font-weight: 500;
+    border-bottom: none;
+}
+/* -- FIN NAVBAR -- */
+
+/* -- BANNER -- */
+.banner-container {
+    display: flex;
+    justify-content: center;
+    
+}
+.banner {
+    position: relative;
+    width: 100%;
+    height: 350px; 
+    background-image: url('../assets/banner.jpeg');
+    background-size: cover;
+    background-position: bottom;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+
+    overflow: hidden;
+}
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to right, rgba(243,156,18,0.9), rgba(243,156,18,0.1));
+    z-index: 0;
+}
+.banner h1 {
+    position: relative;
+    z-index: 1;
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0.5rem 0;
+    text-shadow: 2px 2px 8px rgba(104, 56, 12, 0.9);
+}
+.banner h5 {
+    position: relative;
+    z-index: 1;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0.5rem 0;
+    color: rgba(255,255,255,0.9);
+    max-width: 90%;
+}
+/* -- FIN BANNER -- */
+
+/* -- CATEGORIAS -- */
+.menu-section {
+     padding: 40px 20px 20px 20px;         
+}
+
+.menu-section h2 {
+    font-size: 2rem;         
+    font-weight: 700;            
+    color: #f39c12;                
+    margin-bottom: 10px;        
+}
+.menu-section .subtitle {
+    font-size: 1.1rem;          
+    color: #777;                
+}
+
+.category-card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 25px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;               
+    flex-direction: column;      
+    justify-content: flex-start; 
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.categories-section {
+    padding: 20px 20px 60px 20px; 
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    flex: 0 0 200px; /* ancho fijo */
+    min-width: 200px;
+    padding: 20px;
+}
+.carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 80px; 
+    overflow: visible; 
+}
+
+.carousel-track {
+    display:flex;
+    overflow-x: hidden;
+    gap: 20px;
+    scroll-behavior:auto;
+    padding: 10px 0; 
+}
+.category-card h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.category-card p {
+    font-size: 0.95rem;
+    color: #777;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+/* Botón “Ver opciones” */
+.category-btn {
+    margin-top: auto;
+    padding: 8px 15px;
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.carousel-btn {
+    background-color: #f39c12;
+    color: #fff;
+    margin-left: 15px;
+    margin-right: 15px;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.left-btn { left: 0; }
+.right-btn { right: 0; }
+
+.carousel-btn:hover {
+    background-color: #e08e0b;
+    transform: translateY(-50%) scale(1.1);
+}
+/* -- FIN CATEGORIAS -- */
+
+/* -- CALL TO ACTION --*/
+.cta-section {
+    background-color: #f39c12; /* Fondo mostaza */
+    color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 20px;
+    margin: 60px 20px;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Se adapta en móviles */
+}
+
+.cta-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.order-btn {
+    background-color: #fff;
+    color: #f39c12;
+}
+
+.order-btn:hover {
+    background-color: #ffe0b2;
+}
+
+.reserve-btn {
+    background-color: #e08e0b;
+    color: #fff;
+}
+
+.reserve-btn:hover {
+    background-color: #c97f0a;
+}
+/* -- FIN CALL TO ACTION --*/
+/* -- SIDEBAR CARRITO -- */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+    transition: right 0.3s ease;
+    padding: 20px;
+    z-index: 1050;
+    overflow-y: auto;
+}
+.cart-sidebar.open {
+    right: 0;
+}
+.close-cart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Título principal con ícono */
+.cart-sidebar h2 {
+    font-size: 1.5rem;       
+    font-weight: 700;         
+    color: #333;             
+    display: flex;
+    align-items: center;     
+    gap: 0.5rem;             
+    margin-top: 0;           
+}
+
+/* Icono dentro del h2 */
+.cart-sidebar h2 i {
+    font-size: 1.3rem;       
+    color: #f39c12;           
+}
+
+/* Subtítulo debajo del título */
+.cart-sidebar .subtitle {
+    font-size: 0.85rem;      
+    color: #666;             
+    margin: 0.3rem 0 1rem 0; 
+    line-height: 1.3;        
+}
+
+/* Título de la sección de platos */
+.cart-sidebar h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #444;             
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+/* Contenedor del bloque vacío centrado */
+.cart-sidebar .empty-block {
+    display: flex;
+    flex-direction: column;      /* Apila icono y textos */
+    align-items: center;         /* Centra horizontalmente */
+    justify-content: center;     /* Centra verticalmente */
+    height: calc(50% - 120px);  /* Altura restante del sidebar después de títulos */
+    text-align: center;
+}
+
+/* Icono grande */
+.cart-sidebar .empty-icon {
+    font-size: 4rem;        /* Tamaño grande */
+    color: #ccc;            /* Gris clarito */
+    margin-bottom: 1rem;
+}
+
+/* Mensajes centrados */
+.cart-sidebar .empty-cart,
+.cart-sidebar .add-more {
+    font-size: 0.9rem;      /* Más pequeño */
+    color: #8d8d8d;            /* Gris claro */
+    margin: 0.2rem 0;
+}
+/*-- FIN SIDEBAR CARRITO --*/
+/* -- MODAL LOGIN -- */
+
+.custom-modal {
+    position: relative;
+    width: 350px;
+    height: 320px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
+}
+/* Título */
+.modal-title {
+    margin-top:10px;
+    margin-bottom: 0px; 
+    font-weight: 700;
+    color: #333;
+}
+/* Subtítulo */
+.login-subtitle {
+    font-size: 0.95rem;
+    color: #666;   
+    margin-bottom: 1rem;
+}
+
+/* Inputs con íconos */
+.input-group .form-control {
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+/* Botón mostaza */
+.btn-warning {
+    color: #fff;
+    background-color: #f39c12;
+    border-color: #f39c12;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn-warning:hover {
+    color: #fff;
+    background-color: #e08e0b;
+    border-color: #e08e0b;
+}
+/* -- FIN MODAL LOGIN -- */
+
+/* Sección de platos */
+.platos-section {
+  margin: 3rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+.platos-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Grilla responsiva */
+.platos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Card de plato */
+.plato-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  text-align: center;
+  padding: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.plato-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.plato-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.plato-card h4 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+  color: #222;
+}
+
+.plato-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0.25rem 0;
+}
+
+.plato-card strong {
+  font-size: 1.1rem;
+  color: #e63946;
+}
+
+/* Botón */
+.plato-btn {
+  margin-top: 0.75rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: #e63946;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.plato-btn:hover {
+  background: #c91d2b;
+}
+
+
+/* -- SIDEBAR CARRITO -- */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+    transition: right 0.3s ease;
+    padding: 20px;
+    z-index: 1050;
+    overflow-y: auto;
+}
+.cart-sidebar.open {
+    right: 0;
+}
+.close-cart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Título principal con ícono */
+.cart-sidebar h2 {
+    font-size: 1.5rem;       
+    font-weight: 700;         
+    color: #333;             
+    display: flex;
+    align-items: center;     
+    gap: 0.5rem;             
+    margin-top: 0;           
+}
+
+/* Icono dentro del h2 */
+.cart-sidebar h2 i {
+    font-size: 1.3rem;       
+    color: #f39c12;           
+}
+
+/* Subtítulo debajo del título */
+.cart-sidebar .subtitle {
+    font-size: 0.85rem;      
+    color: #666;             
+    margin: 0.3rem 0 1rem 0; 
+    line-height: 1.3;        
+}
+
+/* Título de la sección de platos */
+.cart-sidebar h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #444;             
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+/* Contenedor del bloque vacío centrado */
+.cart-sidebar .empty-block {
+    display: flex;
+    flex-direction: column;      /* Apila icono y textos */
+    align-items: center;         /* Centra horizontalmente */
+    justify-content: center;     /* Centra verticalmente */
+    height: calc(50% - 120px);  /* Altura restante del sidebar después de títulos */
+    text-align: center;
+}
+
+/* Icono grande */
+.cart-sidebar .empty-icon {
+    font-size: 4rem;        /* Tamaño grande */
+    color: #ccc;            /* Gris clarito */
+    margin-bottom: 1rem;
+}
+
+/* Mensajes centrados */
+.cart-sidebar .empty-cart,
+.cart-sidebar .add-more {
+    font-size: 0.9rem;      /* Más pequeño */
+    color: #8d8d8d;            /* Gris claro */
+    margin: 0.2rem 0;
+}
+/* Item dentro del carrito */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.cart-item-price {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.2rem 0;
+}
+
+.cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.cart-item-qty button {
+    border: none;
+    background: #f39c12;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 3px 7px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-item-remove {
+    background: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 1rem;
+    cursor: pointer;
+}
+/*-- FIN SIDEBAR CARRITO --*/
+/* -- MODAL LOGIN -- */
+
+.custom-modal {
+    position: relative;
+    width: 350px;
+    height: 320px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
+}
+/* Título */
+.modal-title {
+    margin-top:10px;
+    margin-bottom: 0px; 
+    font-weight: 700;
+    color: #333;
+}
+/* Subtítulo */
+.login-subtitle {
+    font-size: 0.95rem;
+    color: #666;   
+    margin-bottom: 1rem;
+}
+
+/* Inputs con íconos */
+.input-group .form-control {
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+/* Botón mostaza */
+.btn-warning {
+    color: #fff;
+    background-color: #f39c12;
+    border-color: #f39c12;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn-warning:hover {
+    color: #fff;
+    background-color: #e08e0b;
+    border-color: #e08e0b;
+}
+/* -- FIN MODAL LOGIN -- */
+
+/* -- SECCIÓN ORDEN -- */
+.order-section {
+  margin: 2rem auto;
+  max-width: 600px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.order-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.order-submit-btn {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: #f39c12;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.order-submit-btn:hover {
+  background: #e08e0b;
+}
+#cart-btn {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  display: inline-block;
+  background-color: #ff4d4f;
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+}
+.order-section {
+  display: none; /* Oculta la sección inicialmente */
+}
+#address-group {
+  display: none; /* oculto por defecto */
+}

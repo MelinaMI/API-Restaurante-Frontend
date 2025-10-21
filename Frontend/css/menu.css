@@ -1,0 +1,497 @@
+
+body {
+    margin: 0;
+    font-family: "Quicksand", sans-serif;
+    background-color: #F8F7F6;
+}
+/* --PLATOS --*/
+/* Contenedor de platos como grid */
+.dishes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 18px;
+  max-width: 90%; /* igual que filtros */
+  margin: 20px auto; /* centrado horizontal */
+  justify-content: center; /* mantiene el tamaño mínimo de 250px cuando hay pocas cards */
+}
+
+/* Card de cada plato */
+.plato-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plato-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Imagen del plato */
+.plato-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Contenido */
+.plato-card h4 {
+  margin: 10px 15px 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.plato-card p {
+  margin: 0 15px 10px;
+  font-size: 0.9rem;
+  color: #666;
+  flex-grow: 1;
+}
+
+.plato-card strong {
+  margin: 0 15px 10px;
+  color: #f39c12;
+  font-size: 1rem;
+}
+.plato-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.plato-counter button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--mostaza);
+  color: #fff;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.plato-counter button:hover {
+  background: var(--mostaza-dark);
+}
+
+.plato-counter .quantity {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Botón */
+.plato-card button {
+  margin: 0 15px 15px;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f39c12;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.plato-card button:hover {
+  background-color: #d48806;
+}
+
+
+
+/*FILTROS*/
+
+/* Contenedor de filtros */
+.filtros-container {
+    margin-top: 80px;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    margin-bottom: 25px;
+    align-items: center;
+    justify-content: flex-start;
+
+}
+
+/* Inputs y selects */
+.filter-item
+{
+    flex: 1 1 200px; /* ancho flexible, mínimo 200px */
+    padding: 8px 12px;
+    border-radius: 8px;
+    
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+/* Focus para input y select */
+.filtros-container input:focus,
+.filtros-container select:focus {
+    outline: none;
+    border-color: #f39c12;
+    box-shadow: 0 0 6px rgba(243,156,18,0.4);
+}
+.filter-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+/* Botón de limpiar filtros */
+#reset-filters {
+  border-radius: 5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  border: none;
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: #fff;
+  margin-top: 20px;
+}
+
+#reset-filters:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(243,156,18,0.45);
+}
+
+/* Icono dentro del botón */
+#reset-filters i {
+    font-size: 1rem;
+    margin-bottom: -4px; /* ajusta fino */
+}
+
+/* Para que sea responsivo en móviles */
+@media (max-width: 768px) {
+    .filtros-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+
+/*-------------MODAL-------------*/
+/* --- Estilos del Overlay y Modal --- */
+.modal-confirmation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente oscuro */
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Asegurar que esté encima de todo */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-confirmation.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content-wrapper {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-confirmation.show .modal-content-wrapper {
+    transform: scale(1);
+}
+
+/* --- Encabezado de Éxito --- */
+.modal-header-success {
+    background-color: #f7fcf7; /* Fondo muy claro para el chequeo */
+    color: #28a745; /* Verde de éxito */
+    padding: 30px 20px 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    display: flex; 
+    flex-direction: column; /* Apila el icono y el texto */
+    align-items: center;  
+}
+
+.modal-header-success i {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    stroke-width: 2.5;
+}
+
+.modal-header-success h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 5px 0 0;
+    align-self: center;
+}
+
+/* --- Cuerpo y Detalles --- */
+.modal-body-success {
+    padding: 20px 30px;
+    color: #333;
+}
+
+.order-details-summary {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dashed #ddd;
+}
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.value-highlight {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #333;
+}
+
+.total-value {
+    color: #ff8a00; /* Color de acento naranja */
+    font-size: 1.2rem;
+}
+
+.small-text {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 15px;
+}
+
+/* --- Footer y Botón de Cierre --- */
+.modal-footer-success {
+    padding: 0 30px 30px;
+}
+
+.btn-primary-confirm {
+    background: #ff8a00;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    width: 100%;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary-confirm:hover {
+    background: #e67e22;
+}
+
+/* Contenedor del ítem completo */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+}
+
+/* Contenedor interno de info (nombre, precio, nota) */
+.cart-item-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 6px;
+}
+
+/* Primera línea: nombre + acciones */
+.cart-header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* espacio debajo del título */
+}
+
+.cart-header-title h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.cart-header-title .btn-vaciar {
+    background: none;
+    color: #333;
+    border: none;
+    border-radius: 50px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cart-header-title .btn-vaciar:hover {
+    background: #f8d7da;
+    color: #dc3545;
+}
+
+/* Nombre del plato */
+.cart-item-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Precio debajo */
+.cart-item-price {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Contenedor de cantidad y botón eliminar */
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Botones de cantidad */
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cart-item-qty button {
+  background: #eee;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555;
+}
+
+.cart-item-qty button:hover {
+  background: #ff8a00;
+  color: #fff;
+}
+
+/* Botón eliminar */
+.cart-item-remove {
+  background: #f8d7da;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  color: #dc3545;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nota del plato */
+.cart-item-note {
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #333;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.cart-item-note:focus {
+  outline: none;
+  border-color: #ff8a00;
+  box-shadow: 0 0 0 2px rgba(255, 138, 0, 0.2);
+}
+/* ======== Estilo para el asterisco de campos obligatorios ======== */
+.required-star {
+  color: #ff8a00;
+  margin-left: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+  vertical-align: middle;
+  opacity: 0.8;
+}
+
+.empty-state {
+  display: none; /* oculto por defecto */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+  margin-top: 40px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.empty-state i {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  color: #f5b700;
+  animation: bounce 1.5s infinite;
+}
+
+.empty-state h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+
+
+
+
+
+

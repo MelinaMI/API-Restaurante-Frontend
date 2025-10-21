@@ -1,0 +1,44 @@
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999; /* para que quede por encima del contenido */
+}
+
+/* Logo */
+.logo { 
+    width: 110px;
+    height: 80%;
+    object-fit: cover;
+}
+
+/*-- NAVBAR --*/
+.container-fluid
+{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+/* Navbar links */
+.navbar-nav .nav-link {
+    margin-left: 20px;
+    display: flex;        
+    align-items: center;    
+    gap: 15px;              
+    font-weight: 500;
+    line-height: 0.2; 
+}
+.nav-link.active {
+    color: #f39c12; /* amarillo para el menú activo */
+    font-weight: 700;
+    border-bottom: 2px solid #f39c12;
+}
+
+.nav-link.inactive {
+    color: #6c757d; /* gris para los demás */
+    font-weight: 500;
+    border-bottom: none;
+}
+/* -- FIN NAVBAR -- */

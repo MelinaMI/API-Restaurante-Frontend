@@ -1,0 +1,327 @@
+/* --------------------------
+   🛍️ SECCIÓN ORDEN Y CARRITO
+---------------------------*/
+
+/* --- Títulos y secciones --- */
+.order-section {
+  display: none;
+}
+
+.order-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.section-title {
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
+  font-size: 1.1rem;
+}
+
+/* --- Grupos de formulario --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #444;
+  margin-top: 1.2rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  color: #333;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+#address-group {
+  display: none; /* oculto por defecto */
+}
+
+/* --- Botón de envío --- */
+.order-submit-btn {
+  width: 100%;
+  padding: 15px 20px;
+  background: #ff8a00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 15px;
+}
+
+.order-submit-btn:hover {
+  background: #e08e0b;
+}
+
+/* --- Contador del carrito --- */
+#cart-btn {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #940719;
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+/* --------------------------
+   🧾 SIDEBAR DEL CARRITO
+---------------------------*/
+
+.cart-sidebar {
+  padding: 20px;
+}
+
+.cart-header h2 {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.cart-items-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-bottom: 10px;
+}
+
+.btn-vaciar {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-vaciar svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* --- Ítem del carrito --- */
+.cart-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+}
+
+.cart-item-title {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.cart-item-price {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* --- Botones de cantidad del carrito --- */
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cart-item-qty button {
+  background: none;
+  border: 1px solid #ffb84d;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.cart-item-qty button:hover {
+  background: #ffe4b3;
+}
+
+.cart-item-qty span {
+  min-width: 22px;
+  text-align: center;
+  font-weight: 600;
+}
+
+
+
+/* Botón de eliminar */
+.cart-item-remove {
+  background: none;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* que no se achique */
+}
+
+.cart-item-remove:hover {
+  background: #dc3545;
+  color: #fff;
+}
+
+/* --- Nota por ítem --- */
+.cart-item-note {
+  width: 100%;
+  resize: vertical;
+  min-height: 40px;
+  font-size: 0.9rem;
+  margin-top: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  color: #333;
+}
+
+.cart-item-note:focus {
+  outline: none;
+  border-color: #ff8a00;
+  box-shadow: 0 0 0 2px rgba(255, 138, 0, 0.2);
+}
+
+/* --- Total del carrito --- */
+.carrito-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: #333;
+  font-size: 1.1rem;
+  padding-top: 10px;
+  margin-top: 1.5rem;
+}
+
+/* --------------------------
+   📋 FORMULARIO DE PEDIDO
+---------------------------*/
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+/* --- Radios personalizados --- */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #555;
+  position: relative;
+}
+
+.radio-label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.custom-radio {
+  height: 18px;
+  width: 18px;
+  background-color: #eee;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.radio-label input[type="radio"]:checked ~ .custom-radio {
+  border-color: #ff8a00;
+}
+
+.radio-label input[type="radio"]:checked ~ .custom-radio:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 9px;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff8a00;
+}
+
+/* --- Pie del pedido (Total y botón) --- */
+.order-total-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+.total-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.total-amount {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ff8a00;
+}
