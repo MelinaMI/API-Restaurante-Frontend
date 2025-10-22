@@ -1,0 +1,368 @@
+/* ---------- GENERAL ---------- */
+body {
+  font-family: "Quicksand", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+  color: #212529;
+}
+
+.page-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  flex-wrap: wrap;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar {
+  position: fixed;       /* Fija en la pantalla */
+  top: 0;                /* arriba */
+  left: 0;
+  width: 100%;           /* ocupa todo el ancho */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 1000;         /* encima de todo */
+  border-radius: 0;      /* quitar bordes redondeados */
+}
+
+/* columnas izquierda, centro y derecha */
+.nav-left, .nav-right {
+  flex: 0 0 auto; /* ancho según contenido */
+}
+
+.order-title {
+  flex: 1; /* ocupa todo el espacio central */
+  text-align: left;
+  margin-left: 20px;
+}
+
+.order-title .title-main {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.order-title .order-number {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Botón atrás */
+.nav-left .back-btn {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #333;
+  text-decoration: none;
+  margin-left:  100px;
+}
+.nav-left .back-btn:hover { color: #ffb703; }
+
+/* Botón guardar */
+#btnGuardarCambios {
+  background-color: #ffb703;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 100px;
+}
+#btnGuardarCambios:hover { background-color: #f48c06; }
+
+
+/* ---------- INFO DE LA ORDEN ---------- */
+.info-card {
+  flex: 0 0 300px; /* ancho fijo */
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+  height: 335px; /* fija */
+}
+
+.info-card h5 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+
+.info-group label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.info-group p {
+  font-size: 1rem;
+  margin: 0.2rem 0 0.5rem 0;
+}
+
+.info-total {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between; /* TOTAL a la izquierda, $ a la derecha */
+    width: 100%;
+    align-items: baseline;
+}
+
+.total-label {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.total-amount {
+    font-size: 1.5rem; /* más grande que TOTAL */
+    color: var(--danger-price, #ffc107);
+    font-weight: 700;
+}
+
+.total-items {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+/* ---------- RIGHT COLUMN ---------- */
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- PLATOS CARD ---------- */
+.platos-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+  align-items: center;
+}
+
+.platos-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.platos-card .subtext {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.platos-card input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  margin-bottom: 1rem;
+}
+
+/* ---------- GRID DE PLATOS DISPONIBLES ---------- */
+/* Grid contenedor opcional, si quieres varias cards */
+.platos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+/* Card horizontal */
+.plato-disponible {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.plato-disponible:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* Imagen pequeña a la izquierda */
+.plato-disponible img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 12px;
+}
+
+/* Contenido del plato */
+.plato-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.plato-info h5 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.plato-info p {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 2px 0 0 0;
+  line-height: 1.2;
+}
+
+/* Precio */
+.plato-info strong {
+  font-size: 0.85rem;
+  color: #f39c12;
+  margin-top: 4px;
+}
+
+/* Botón agregar a la derecha */
+.plato-disponible .btn-add {
+  background-color: #ffb703;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  margin-left: 12px;
+  transition: background 0.2s;
+}
+
+.plato-disponible .btn-add:hover {
+  background-color: #f48c06;
+}
+/* ---------- LISTA DE PLATOS AGREGAR SCROLLEABLE ---------- */
+#platosDisponibles {
+  max-height: 400px;     /* altura máxima de la lista */
+  overflow-y: auto;      /* scroll vertical si excede la altura */
+  padding-right: 5px;    /* espacio para que no tape el scroll */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Opcional: estilo del scroll */
+#platosDisponibles::-webkit-scrollbar {
+  width: 6px;
+}
+
+#platosDisponibles::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+#platosDisponibles::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+/* ---------- PLATOS EN LA ORDEN ---------- */
+.plato-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 10px;
+}
+
+.plato-info h6 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.plato-info textarea {
+  width: 35%;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  padding: 4px 6px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  resize: none;
+}
+/* ---------- LISTA DE PLATOS EN LA ORDEN SCROLLEABLE ---------- */
+#platosActuales {
+  max-height: 400px;      /* altura máxima */
+  overflow-y: auto;       /* scroll vertical si excede */
+  padding-right: 5px;     /* evita que el scroll tape contenido */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Scroll opcional estilizado */
+#platosActuales::-webkit-scrollbar {
+  width: 6px;
+}
+
+#platosActuales::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+#platosActuales::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+/* ---------- CONTADORES ---------- */
+.plato-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  padding: 2px 5px;
+}
+
+.plato-controls span {
+  min-width: 25px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #212529;
+}
+
+.btn-qty {
+  background: transparent;
+  border: none;
+  color: #ffc107;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.btn-qty:hover {
+  background: rgba(255,193,7,0.2);
+}
+
+.plato-controls strong {
+  margin-left: 10px;
+  font-weight: 600;
+}

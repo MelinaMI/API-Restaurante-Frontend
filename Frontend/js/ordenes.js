@@ -73,7 +73,7 @@ function traducirEstado(estado) {
 const deliveryTypeNames = {
     1: "Delivery",
     2: "Para llevar",
-    3: "Comer en local"
+    3: "En mesa"
 };
 
 function calcularEstadoVisual(order) {
@@ -250,6 +250,7 @@ function createOrderCard(order) {
     hora.className = "order-time";
     hora.innerHTML = `<i data-lucide="clock-3"></i> ${horaLocal} hs`;
     body.appendChild(hora);
+    
 
     if (order.deliveryType) {
         const tipoEntrega = document.createElement("p");
@@ -294,7 +295,7 @@ function createOrderCard(order) {
     // Guardamos la orden en localStorage y redirigimos
     editBtn.addEventListener("click", () => {
         // Guardamos la orden completa en localStorage
-        localStorage.setItem('ordenAEditar', JSON.stringify(order));
+         localStorage.setItem("ordenIdEditar", order.orderNumber);
         // Redirigimos a la página de edición
         window.location.href = 'EditarOrden.html';
     });

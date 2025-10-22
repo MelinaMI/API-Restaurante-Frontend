@@ -9,36 +9,73 @@
   <script src="https://unpkg.com/lucide"></script>
 </head>
 <body>
-
-  <div class="container my-4">
-    <h2>Editar Orden #<span id="orderNumber"></span></h2>
-
-    <section class="orden-info my-3">
-      <p><strong>Tipo de entrega::</strong> <span id="deliveryType"></span></p>
-      <p><strong>Dirección:</strong> <span id="deliverTo"></span></p>
-      <p><strong>Nota general:</strong> <span id="orderNotes"></span></p>
-    </section>
-
-    <section class="platos-actuales my-3">
-      <h4>Platos actuales</h4>
-      <div id="platosActuales" class="grid-platos"></div>
-    </section>
-
-    <section class="platos-disponibles my-3">
-      <h4>Agregar platos</h4>
-      <div id="platosDisponibles" class="grid-platos"></div>
-    </section>
-
-    <div class="total my-3">
-      <strong>Total:</strong> $<span id="totalOrden">0.00</span>
-    </div>
-
-    <div class="acciones d-flex gap-2">
-      <button id="btnGuardarCambios" class="btn btn-primary">Guardar Cambios</button>
-      <a href="Ordenes.html" class="btn btn-secondary">Volver</a>
-    </div>
+    
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="Ordenes.html" class="back-btn">
+        <i data-lucide="arrow-left" class="icon"></i>
+    </a>
   </div>
+  <div class="order-title">
+    <div class="title-main">Editar orden</div>
+    <div class="order-number">Orden #<span id="orderNumber"></span></div>
+  </div>
+  <div class="nav-right">
+    <button id="btnGuardarCambios">Guardar</button>
+  </div>
+</nav>
+<div class="page-container">
+  <!-- Card izquierda -->
+  <div class="info-card">
+    <h5 class="card-title">Información de la Orden</h5>
 
+    <div class="info-group">
+      <label>Tipo de Orden</label>
+      <p id="deliveryTypeContainer"></p>
+    </div>
+
+    <div class="info-group" id="dynamicFieldContainer">
+      <!-- Se completa por JS -->
+    </div>
+
+    <div class="info-group">
+      <label>Nota general</label>
+      <p id="orderNotes"></p>
+    </div>
+
+    <div class="info-total">
+        <div class="total-row">
+            <span class="total-label">Total</span>
+            <strong class="total-amount" id="totalOrden">$0.00</strong>
+        </div>
+        <p class="total-items"><span id="totalItems">0</span> Platos</p>
+    </div>
+  </div> <!-- Cierre de info-card -->
+
+  <!-- Columna derecha -->
+  <div class="right-column">
+    <!-- Platos en la Orden -->
+    <section class="platos-card">
+      <h3><i data-lucide="shopping-cart"></i> Platos en la Orden</h3>
+      <p class="subtext">Ajusta las cantidades de los platos (mínimo 1)</p>
+      <div id="platosActuales"></div>
+    </section>
+
+    <!-- Agregar Platos -->
+    <section class="platos-card">
+      <h3><i data-lucide="utensils"></i> Agregar Platos</h3>
+      <p class="subtext">Selecciona platos del menú para agregar a la orden</p>
+      <input type="text" id="searchPlates" placeholder="Buscar platos...">
+      <div id="platosDisponibles" class="platos-grid"></div>
+    </section>
+  </div>
+</div>
+
+  
+
+  <script>
+    lucide.createIcons();
+  </script>
   <script src="js/editarOrden.js"></script>
 </body>
 </html>

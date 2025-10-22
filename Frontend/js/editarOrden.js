@@ -1,131 +1,257 @@
-// Recuperar orden desde localStorage
-let orden = JSON.parse(localStorage.getItem('ordenAEditar'));
-if (!orden) {
-    alert("No se encontró la orden a editar.");
-    window.location.href = 'Ordenes.html';
-}
+window.addEventListener("load", () => {
+  const API_URL = "http://localhost:5107/api/v1";
+  lucide.createIcons();
 
-// Mostrar datos generales
-document.getElementById('orderNumber').textContent = orden.orderNumber || '';
-document.getElementById('deliveryType').textContent = orden.deliveryType || '';
-document.getElementById('deliverTo').textContent = orden.deliverTo || '';
-document.getElementById('orderNotes').textContent = orden.notes || '';
+  let platosDisponibles = [];
+  let orderId = localStorage.getItem("ordenIdEditar");
+  let currentOrderItems = [];
 
-// Inicializar items
-orden.items = orden.items || [];
+  // ======== ELEMENTOS DEL DOM ========
+  const orderNumberElem = document.getElementById("orderNumber");
+  const deliveryTypeContainer = document.getElementById("deliveryTypeContainer");
+  const dynamicFieldContainer = document.getElementById("dynamicFieldContainer");
+  const totalItemsElem = document.getElementById("totalItems");
+  const totalOrdenElem = document.getElementById("totalOrden");
+  const platosActualesContainer = document.getElementById("platosActuales");
+  const platosDisponiblesContainer = document.getElementById("platosDisponibles");
+  const searchPlatesInput = document.getElementById("searchPlates");
+  const orderNotesElem = document.getElementById("orderNotes");
+  const btnGuardar = document.getElementById("btnGuardarCambios");
 
-// Función para calcular total
-function calcularTotal() {
-    let total = orden.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    document.getElementById('totalOrden').textContent = total.toFixed(2);
-}
+  const deliveryTypeFriendly = {
+    "Dine in": "En mesa",
+    "Take away": "Para llevar",
+    "Delivery": "Delivery"
+  };
 
-// Renderizar platos actuales
-const platosActuales = document.getElementById('platosActuales');
+  // ======== FETCH PLATOS DISPONIBLES ========
+  async function fetchPlatos() {
+    try {
+      const res = await fetch(`${API_URL}/Dish?onlyActive=true`);
+      platosDisponibles = await res.json();
+      renderPlatosDisponibles(platosDisponibles);
+    } catch (err) {
+      console.error("Error cargando platos:", err);
+      platosDisponiblesContainer.innerHTML = "<p>Error cargando platos</p>";
+    }
+  }
 
-function renderPlatosActuales() {
-    platosActuales.innerHTML = '';
-    orden.items.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'plato card p-2 mb-2';
-        div.innerHTML = `
-            <strong>${item.name}</strong><br>
-            Precio: $${item.price}<br>
-            Cantidad: <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="form-control input-cantidad"><br>
-            Nota: <input type="text" value="${item.note || ''}" data-index="${index}" class="form-control input-nota"><br>
-            <button class="btn btn-danger btn-sm btn-eliminar" data-index="${index}">Eliminar</button>
-        `;
-        platosActuales.appendChild(div);
+  // ======== RENDER PLATOS DISPONIBLES ========
+  function renderPlatosDisponibles(lista) {
+    platosDisponiblesContainer.innerHTML = "";
+
+    if (!lista.length) {
+      platosDisponiblesContainer.innerHTML = "<p>No hay platos disponibles</p>";
+      return;
+    }
+
+    lista.forEach((plato) => {
+      const div = document.createElement("div");
+      div.className = "plato-disponible";
+
+      div.innerHTML = `
+        <img src="${plato.image || 'placeholder.jpg'}" alt="${plato.name}">
+        <div class="plato-info">
+          <h5>${plato.name}</h5>
+          <p>${plato.description || ""}</p>
+          <strong>$${plato.price?.toFixed(2) || 0}</strong>
+        </div>
+        <div class="plato-precio-agregar">
+          <button class="btn-add">Agregar</button>
+        </div>
+      `;
+
+      div.querySelector(".btn-add").addEventListener("click", () => addPlatoToOrder(plato));
+      platosDisponiblesContainer.appendChild(div);
     });
+  }
 
-    // Asociar eventos
-    document.querySelectorAll('.input-cantidad').forEach(input => {
-        input.addEventListener('change', (e) => {
-            const i = e.target.dataset.index;
-            orden.items[i].quantity = parseInt(e.target.value) || 1;
-            calcularTotal();
-        });
-    });
+  // ======== AGREGAR PLATO A LA ORDEN ========
+  function addPlatoToOrder(plato) {
+    const existing = currentOrderItems.find(item => item.dishId === plato.id);
+    if (existing) {
+      existing.quantity++;
+    } else {
+      currentOrderItems.push({
+        dishId: plato.id,
+        dish: plato,
+        quantity: 1,
+        notes: ""
+      });
+    }
+    renderPlatos(currentOrderItems);
+  }
 
-    document.querySelectorAll('.input-nota').forEach(input => {
-        input.addEventListener('change', (e) => {
-            const i = e.target.dataset.index;
-            orden.items[i].note = e.target.value;
-        });
-    });
-
-    document.querySelectorAll('.btn-eliminar').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const i = e.target.dataset.index;
-            orden.items.splice(i, 1);
-            renderPlatosActuales();
-            calcularTotal();
-        });
-    });
-
-    calcularTotal();
-}
-
-// Renderizar platos disponibles (ejemplo fijo, puedes traer desde API)
-const platosDisponibles = [
-    { id: 1, name: 'Canelones', price: 150 },
-    { id: 2, name: 'Tarta de Calabaza', price: 120 },
-    { id: 3, name: 'Ensalada César', price: 100 },
-];
-
-const contPlatosDisponibles = document.getElementById('platosDisponibles');
-
-function renderPlatosDisponibles() {
-    contPlatosDisponibles.innerHTML = '';
-    platosDisponibles.forEach((plato) => {
-        const div = document.createElement('div');
-        div.className = 'plato card p-2 mb-2';
-        div.innerHTML = `
-            <strong>${plato.name}</strong><br>
-            Precio: $${plato.price}<br>
-            <button class="btn btn-success btn-sm btn-agregar" data-id="${plato.id}">Agregar</button>
-        `;
-        contPlatosDisponibles.appendChild(div);
-    });
-
-    document.querySelectorAll('.btn-agregar').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const id = parseInt(e.target.dataset.id);
-            const plato = platosDisponibles.find(p => p.id === id);
-            if (plato) {
-                // Verificar si ya existe
-                const existing = orden.items.find(i => i.id === id);
-                if (existing) {
-                    existing.quantity += 1;
-                } else {
-                    orden.items.push({ ...plato, quantity: 1, note: '' });
-                }
-                renderPlatosActuales();
-            }
-        });
-    });
-}
-
-// Guardar cambios
-document.getElementById('btnGuardarCambios').addEventListener('click', async () => {
-    localStorage.setItem('ordenAEditar', JSON.stringify(orden));
+  // ======== CARGAR ORDEN ========
+  async function cargarOrden() {
+    if (!orderId) {
+      alert("No se encontró la orden para editar.");
+      return;
+    }
 
     try {
-        const response = await fetch(`http://localhost:5107/api/v1/orders/${orden.id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items: orden.items, notes: orden.notes || '' })
-        });
-        if (!response.ok) throw new Error('Error al actualizar la orden');
-        alert('Orden actualizada correctamente');
-        localStorage.removeItem('ordenAEditar');
-        window.location.href = 'Ordenes.html';
-    } catch (err) {
-        console.error(err);
-        alert('No se pudo actualizar la orden');
-    }
-});
+      const res = await fetch(`${API_URL}/Order/${orderId}`);
+      if (!res.ok) throw new Error("Orden no encontrada");
 
-// Inicializar render
-renderPlatosActuales();
-renderPlatosDisponibles();
+      const orden = await res.json();
+
+      // Número de orden
+      orderNumberElem.textContent = orden.orderNumber;
+
+      // Tipo de entrega
+      deliveryTypeContainer.textContent =
+        deliveryTypeFriendly[orden.deliveryType?.name] || orden.deliveryType?.name || "";
+
+      // Campo dinámico
+      dynamicFieldContainer.innerHTML = "";
+      let label = "";
+      let value = "";
+
+      switch (orden.deliveryType?.name) {
+        case "Dine in":
+        case "En mesa":
+          label = "Número de mesa";
+          value = orden.tableNumber || orden.deliverTo || "";
+          break;
+        case "Take away":
+        case "Para llevar":
+          label = "Nombre";
+          value = orden.clientName || orden.deliverTo || "";
+          break;
+        case "Delivery":
+          label = "Dirección de entrega";
+          value = orden.deliverTo || "";
+          break;
+      }
+
+      if (label) {
+        dynamicFieldContainer.innerHTML = `
+          <label class="form-label text-secondary small">${label}</label>
+          <p class="mb-0 fs-5">${value}</p>
+          <hr class="my-1">
+        `;
+      }
+
+      // Nota general
+      orderNotesElem.textContent = orden.notes || "";
+
+      // Items
+      currentOrderItems = orden.items?.map(item => ({
+        dishId: item.dish?.id || item.id,
+        dish: platosDisponibles.find(p => p.id === (item.dish?.id || item.id)) || {
+          name: item.dish?.name || "Plato",
+          price: item.dish?.price || 0
+        },
+        quantity: item.quantity,
+        notes: item.notes || ""
+      })) || [];
+
+      renderPlatos(currentOrderItems);
+
+    } catch (err) {
+      console.error(err);
+      alert("No se pudo cargar la orden: " + err.message);
+    }
+  }
+
+  // ======== RENDER PLATOS DE LA ORDEN ========
+  function renderPlatos(items) {
+    platosActualesContainer.innerHTML = "";
+
+    let totalItems = 0;
+    let totalAmount = 0;
+
+    items.forEach((item, index) => {
+      totalItems += item.quantity;
+      totalAmount += (item.dish?.price || 0) * item.quantity;
+
+      const div = document.createElement("div");
+      div.className = "plato-item";
+
+      div.innerHTML = `
+        <div class="plato-info">
+          <h6>${item.dish?.name || "Plato"}</h6>
+          <textarea class="form-control form-control-sm mt-1" placeholder="Notas del plato...">${item.notes || ""}</textarea>
+        </div>
+        <div class="plato-controls">
+          <button class="btn-qty btn-minus">-</button>
+          <span>${item.quantity}</span>
+          <button class="btn-qty btn-plus">+</button>
+          <strong>$${((item.dish?.price || 0) * item.quantity).toFixed(2)}</strong>
+        </div>
+      `;
+
+      // Textarea notas
+      const textarea = div.querySelector("textarea");
+      textarea.addEventListener("input", e => {
+        item.notes = e.target.value;
+      });
+
+      // Botones cantidad
+      const btnMinus = div.querySelector(".btn-minus");
+      const btnPlus = div.querySelector(".btn-plus");
+
+      btnMinus.disabled = item.quantity === 1;
+      btnMinus.addEventListener("click", () => {
+        if (item.quantity > 1) item.quantity--;
+        renderPlatos(items);
+      });
+
+      btnPlus.addEventListener("click", () => {
+        item.quantity++;
+        renderPlatos(items);
+      });
+
+      platosActualesContainer.appendChild(div);
+    });
+
+    totalItemsElem.textContent = totalItems;
+    totalOrdenElem.textContent = `$${totalAmount.toFixed(2)}`;
+  }
+
+  // ======== GUARDAR CAMBIOS ========
+  async function guardarCambios() {
+    try {
+      const payload = {
+        items: currentOrderItems.map(item => ({
+          id: item.dishId,
+          quantity: item.quantity,
+          notes: item.notes || ""
+        }))
+      };
+
+      const res = await fetch(`${API_URL}/Order/${orderId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error("Error al actualizar la orden");
+
+      alert("Orden actualizada con éxito ✅");
+    } catch (err) {
+      console.error(err);
+      alert("No se pudo actualizar la orden: " + err.message);
+    }
+  }
+
+  // ======== FILTRO DE PLATOS ========
+  if (searchPlatesInput) {
+    searchPlatesInput.addEventListener("input", () => {
+      const term = searchPlatesInput.value.toLowerCase();
+      renderPlatosDisponibles(
+        platosDisponibles.filter(p => p.name.toLowerCase().includes(term))
+      );
+    });
+  }
+
+  // ======== EVENTO GUARDAR ========
+  if (btnGuardar) btnGuardar.addEventListener("click", guardarCambios);
+
+  // ======== INICIALIZACIÓN ========
+  (async () => {
+    await fetchPlatos();
+    await cargarOrden();
+    lucide.createIcons();
+  })();
+});

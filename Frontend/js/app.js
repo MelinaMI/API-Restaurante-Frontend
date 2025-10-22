@@ -337,7 +337,7 @@ function initOrderForm() {
         
         const orderType = document.querySelector('input[name="deliveryType"]:checked').value;
 
-        const deliveryId = orderType === "dinein" ? 1
+        const deliveryId = orderType === "delivery" ? 1
                            : orderType === "takeaway" ? 2
                            : 3;
 
