@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:5107/api/v1";
 lucide.createIcons();
-
 const emptyState = document.querySelector(".empty-state");
 const ordersContainer = document.getElementById("orders");
 const statActive = document.getElementById("stat-active");
@@ -56,7 +55,6 @@ const prioridadEstado = {
     "Closed": 5,
     "Cancelled": 5
 };
-
 // ------------------- Traducción y visual -------------------
 function traducirEstado(estado) {
     switch (estado) {
@@ -145,11 +143,11 @@ async function actualizarEstadoEnBackend(orderId, itemId, nuevoEstado) {
         if (!response.ok) {
             const error = await response.text();
             console.error("Error al actualizar en backend:", error);
-            alert("No se pudo actualizar el estado en la base de datos.");
+            showToast("No se pudo actualizar el estado en la base de datos.","error");
         }
     } catch (err) {
         console.error("Error de red:", err);
-        alert("Error de conexión con el servidor.");
+        showToast("Error de conexión con el servidor.","error");
     }
 }
 
@@ -235,7 +233,7 @@ function createOrderCard(order) {
 
     const estadoVisual = calcularEstadoVisual(order);
     const badge = document.createElement("span");
-    badge.className = `badge ${badgeColors[estadoVisual]}`;
+    badge.className = `badge ${badgeColors[estadoVisual] || badgeColors["Pending"]}`;
     badge.textContent = traducirEstado(estadoVisual);
 
     head.appendChild(orderIdElement);
@@ -244,13 +242,12 @@ function createOrderCard(order) {
     const body = document.createElement("div");
     body.className = "order-body";
 
-    const fecha = new Date(order.createdAt);
+    const fecha = order.createdAt ? new Date(order.createdAt) : new Date();
     const horaLocal = fecha.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     const hora = document.createElement("p");
     hora.className = "order-time";
     hora.innerHTML = `<i data-lucide="clock-3"></i> ${horaLocal} hs`;
     body.appendChild(hora);
-    
 
     if (order.deliveryType) {
         const tipoEntrega = document.createElement("p");
@@ -261,7 +258,7 @@ function createOrderCard(order) {
     }
 
     const address = document.createElement("p");
-    address.innerHTML = `<i data-lucide="map-pin"></i> ${order.deliverTo}`;
+    address.innerHTML = `<i data-lucide="map-pin"></i> ${order.deliverTo || ""}`;
     body.appendChild(address);
 
     if (order.notes) {
@@ -272,46 +269,67 @@ function createOrderCard(order) {
     }
 
     // --- Ítems de la orden ---
-    order.items.forEach(item => {
+    (order.items || []).forEach(item => {
         const itemDiv = renderItem(order, item, badge);
         body.appendChild(itemDiv);
     });
 
     // --- Contenedor para el total y el botón ---
     const footerActions = document.createElement("div");
-    // Clase para alinear Total a la izquierda y Botón a la derecha
-    footerActions.className = "order-footer-actions"; 
-    
-    // 1. Elemento Total
+    footerActions.className = "order-footer-actions";
+    // Aseguramos layout flex (CSS de tu proyecto también puede hacerlo)
+    footerActions.style.display = "flex";
+    footerActions.style.justifyContent = "space-between";
+    footerActions.style.alignItems = "center";
+    footerActions.style.gap = "12px";
+
+    // 1. Elemento Total (izquierda)
     const total = document.createElement("p");
     total.className = "order-total";
     total.innerHTML = `<i data-lucide="wallet"></i> <strong>Total:</strong> $${order.totalAmount}`;
-    
-    // 2. Botón de edición
+    // 2. Botón de edición (derecha)
     const editBtn = document.createElement("button");
     editBtn.className = "btn-edit";
     editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
+    // Forzamos que el botón quede a la derecha si por alguna razón el CSS falla
+    editBtn.style.marginLeft = "auto";
 
-    // Guardamos la orden en localStorage y redirigimos
-    editBtn.addEventListener("click", () => {
-        // Guardamos la orden completa en localStorage
-         localStorage.setItem("ordenIdEditar", order.orderNumber);
-        // Redirigimos a la página de edición
-        window.location.href = 'EditarOrden.html';
+    // Decidir si la orden es editable: SOLO editable cuando TODOS los ítems están "Pending"
+    // (o si no hay ítems)
+    const tieneItemNoPendiente = (order.items || []).some(it => {
+        const name = it.status?.name || "Pending";
+        // si el estado es distinto a Pending -> no editable
+        return name !== "Pending";
     });
-    
-    // 3. Adjuntar Total y Botón al nuevo contenedor
+
+    if (!tieneItemNoPendiente) {
+        // editable
+        editBtn.addEventListener("click", () => {
+            localStorage.setItem("ordenIdEditar", order.orderNumber);
+            window.location.href = 'EditarOrden.html';
+        });
+    } else {
+        // no editable: mantener botón visible pero deshabilitado y con tooltip
+        editBtn.disabled = true;
+        editBtn.title = "No se puede editar: la orden tiene ítems en preparación o más avanzados";
+        editBtn.style.opacity = "0.55";
+        editBtn.style.cursor = "not-allowed";
+    }
+
+    // Adjuntamos en orden: total (izq) + editBtn (der)
     footerActions.appendChild(total);
     footerActions.appendChild(editBtn);
 
-    // 4. Adjuntar el nuevo contenedor al cuerpo de la orden
     body.appendChild(footerActions);
-    
+
     card.appendChild(head);
     card.appendChild(body);
 
+    // Reemplazamos íconos Lucide en this card
+    lucide.createIcons();
     return card;
 }
+
 // ------------------- Render Orders con empty state -------------------
 function renderOrders(orders) {
     ordersContainer.innerHTML = "";
@@ -337,7 +355,6 @@ btnFiltrar.addEventListener("click", async () => {
     const estado = selectEstado.value; // Pending, Delivered, etc.
 
     try {
-        // Transformar estado al ID esperado por el backend
         let statusId = null;
         switch (estado) {
             case "Pending": statusId = 1; break;
@@ -345,10 +362,8 @@ btnFiltrar.addEventListener("click", async () => {
             case "Ready": statusId = 3; break;
             case "Delivered": statusId = 4; break;
             case "Closed": statusId = 5; break;
-            
         }
 
-        // Query params
         const query = new URLSearchParams();
         if (desde) query.append("from", desde.toISOString());
         if (hasta) query.append("to", hasta.toISOString());
@@ -358,8 +373,8 @@ btnFiltrar.addEventListener("click", async () => {
         const res = await fetch(url);
 
         if (!res.ok) {
-            const error = await res.json(); // Backend devuelve mensaje en JSON
-            alert(`Error al filtrar: ${error.title || error.message}`);
+            const error = await res.json();
+            showToast(`Error al filtrar: ${error.title || error.message}`,"error");
             return;
         }
 
@@ -368,19 +383,21 @@ btnFiltrar.addEventListener("click", async () => {
         computeStats(ordersData);
         renderOrders(ordersData);
 
-        // Renderizado normal
-        ordersContainer.innerHTML = "";
-        ordersData.forEach(order => {
-            const card = createOrderCard(order);
-            ordersContainer.appendChild(card);
-        });
-        lucide.createIcons();
-
     } catch (err) {
         console.error("Error de red:", err);
-        alert("No se pudo conectar con el servidor.");
+        showToast("No se pudo conectar con el servidor.","error");
     }
 });
+
+btnLimpiar.addEventListener("click", () => {
+    inputDesde.value = "";
+    inputHasta.value = "";
+    selectEstado.value = "";
+
+    renderOrders(ordersData);
+    fetchOrders();
+});
+
 btnLimpiar.addEventListener("click", () => {
     // Limpiar inputs
     inputDesde.value = "";
@@ -405,7 +422,10 @@ function fetchOrders() {
             });
             lucide.createIcons();
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            console.error(err);
+            showToast("No se pudo conectar con el servidor.","error");
+        });
 }
 
 fetchOrders();

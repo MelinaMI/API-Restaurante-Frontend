@@ -85,7 +85,7 @@ body {
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
-  height: 335px; /* fija */
+  height:fit-content; /* fija */
 }
 
 .info-card h5 {
@@ -366,3 +366,9 @@ body {
   margin-left: 10px;
   font-weight: 600;
 }
+
+
+
+
+
+

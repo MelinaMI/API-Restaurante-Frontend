@@ -1,0 +1,49 @@
+
+/* Contenedor: Posición y apilamiento */
+.toast-container {
+position: fixed;
+top: 20px;
+right: 20px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+z-index: 9999;
+margin-top: 60px; /* Espacio para no chocar con el navbar */
+}
+
+.toast {
+padding: 12px 18px;
+border-radius: 12px; /* Más redondeado que tu versión anterior (8px) */
+background-color: #faf7f7ef; /* Fondo blanco */
+color: #333333; /* Texto oscuro */
+font-size: 1rem;
+font-family: sans-serif;
+min-width: 250px;
+max-width: 400px;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 3px 8px rgba(0, 0, 0, 0.05);
+opacity: 0;
+transform: translateY(-10px); /* Ligeramente hacia arriba para el efecto */
+transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* Tipos: Colores de texto/borde según el tipo, manteniendo el fondo blanco */
+.toast-info { border-left: 5px solid #3498db; }
+.toast-success { border-left: 5px solid #2ecc71; }
+.toast-error { border-left: 5px solid #c0392b; }
+
+/* Tamaños (Ajuste menor si se mantienen) */
+.toast-small { font-size: 0.8rem; padding: 8px 12px; }
+.toast-medium { font-size: 1rem; padding: 12px 18px; }
+.toast-large { font-size: 1.2rem; padding: 16px 24px; }
+
+/* Animación de ENTRADA (Muestra el toast) */
+.toast.show {
+opacity: 1;
+transform: translateY(0);
+}
+
+/* Animación de SALIDA (Oculta el toast) */
+.toast.hide {
+opacity: 0;
+transform: translateY(-10px); /* Se desvanece y sube ligeramente */
+}

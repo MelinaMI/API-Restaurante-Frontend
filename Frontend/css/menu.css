@@ -55,8 +55,8 @@ body {
 
 .plato-card strong {
   margin: 0 15px 10px;
-  color: #f39c12;
-  font-size: 1rem;
+  color: #333;
+  font-size: 1.2rem;
 }
 .plato-counter {
   display: flex;
@@ -90,7 +90,7 @@ body {
 /* Botón */
 .plato-card button {
   margin: 0 15px 15px;
-  padding: 8px;
+  padding: 4px;
   border: none;
   border-radius: 8px;
   background-color: #f39c12;
@@ -427,19 +427,46 @@ body {
   align-items: center;
   justify-content: center;
 }
+.panel-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.panel-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #FF3B30; /* rojo */
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scale(0);
+    opacity: 0;
+}
+
+.panel-count.show {
+    transform: scale(1);
+    opacity: 1;
+}
 
 /* Nota del plato */
-.cart-item-note {
-  width: 100%;
-  min-height: 40px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  font-size: 0.9rem;
-  color: #333;
-  font-family: inherit;
-  resize: vertical;
-}
+
 
 .cart-item-note:focus {
   outline: none;

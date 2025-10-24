@@ -32,6 +32,7 @@ window.addEventListener("load", () => {
       renderPlatosDisponibles(platosDisponibles);
     } catch (err) {
       console.error("Error cargando platos:", err);
+      showToast("Error cargando platos","error");
       platosDisponiblesContainer.innerHTML = "<p>Error cargando platos</p>";
     }
   }
@@ -85,7 +86,7 @@ window.addEventListener("load", () => {
   // ======== CARGAR ORDEN ========
   async function cargarOrden() {
     if (!orderId) {
-      alert("No se encontró la orden para editar.");
+      showToast("No se encontró la orden para editar","error");
       return;
     }
 
@@ -95,36 +96,20 @@ window.addEventListener("load", () => {
 
       const orden = await res.json();
 
-      // Número de orden
       orderNumberElem.textContent = orden.orderNumber;
-
-      // Tipo de entrega
-      deliveryTypeContainer.textContent =
-        deliveryTypeFriendly[orden.deliveryType?.name] || orden.deliveryType?.name || "";
+      deliveryTypeContainer.textContent = deliveryTypeFriendly[orden.deliveryType?.name] || orden.deliveryType?.name || "";
 
       // Campo dinámico
       dynamicFieldContainer.innerHTML = "";
-      let label = "";
-      let value = "";
-
+      let label = "", value = "";
       switch (orden.deliveryType?.name) {
         case "Dine in":
-        case "En mesa":
-          label = "Número de mesa";
-          value = orden.tableNumber || orden.deliverTo || "";
-          break;
+        case "En mesa": label="Número de mesa"; value=orden.tableNumber||orden.deliverTo||""; break;
         case "Take away":
-        case "Para llevar":
-          label = "Nombre";
-          value = orden.clientName || orden.deliverTo || "";
-          break;
-        case "Delivery":
-          label = "Dirección de entrega";
-          value = orden.deliverTo || "";
-          break;
+        case "Para llevar": label="Nombre"; value=orden.clientName||orden.deliverTo||""; break;
+        case "Delivery": label="Dirección de entrega"; value=orden.deliverTo||""; break;
       }
-
-      if (label) {
+      if(label){
         dynamicFieldContainer.innerHTML = `
           <label class="form-label text-secondary small">${label}</label>
           <p class="mb-0 fs-5">${value}</p>
@@ -132,10 +117,8 @@ window.addEventListener("load", () => {
         `;
       }
 
-      // Nota general
       orderNotesElem.textContent = orden.notes || "";
 
-      // Items
       currentOrderItems = orden.items?.map(item => ({
         dishId: item.dish?.id || item.id,
         dish: platosDisponibles.find(p => p.id === (item.dish?.id || item.id)) || {
@@ -150,18 +133,17 @@ window.addEventListener("load", () => {
 
     } catch (err) {
       console.error(err);
-      alert("No se pudo cargar la orden: " + err.message);
+      showToast("No se pudo cargar la orden: " + err.message,"error");
     }
   }
 
   // ======== RENDER PLATOS DE LA ORDEN ========
   function renderPlatos(items) {
     platosActualesContainer.innerHTML = "";
-
     let totalItems = 0;
     let totalAmount = 0;
 
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       totalItems += item.quantity;
       totalAmount += (item.dish?.price || 0) * item.quantity;
 
@@ -181,26 +163,15 @@ window.addEventListener("load", () => {
         </div>
       `;
 
-      // Textarea notas
       const textarea = div.querySelector("textarea");
-      textarea.addEventListener("input", e => {
-        item.notes = e.target.value;
-      });
+      textarea.addEventListener("input", e => item.notes = e.target.value);
 
-      // Botones cantidad
       const btnMinus = div.querySelector(".btn-minus");
       const btnPlus = div.querySelector(".btn-plus");
 
       btnMinus.disabled = item.quantity === 1;
-      btnMinus.addEventListener("click", () => {
-        if (item.quantity > 1) item.quantity--;
-        renderPlatos(items);
-      });
-
-      btnPlus.addEventListener("click", () => {
-        item.quantity++;
-        renderPlatos(items);
-      });
+      btnMinus.addEventListener("click", () => { if(item.quantity>1)item.quantity--; renderPlatos(items); });
+      btnPlus.addEventListener("click", () => { item.quantity++; renderPlatos(items); });
 
       platosActualesContainer.appendChild(div);
     });
@@ -226,30 +197,33 @@ window.addEventListener("load", () => {
         body: JSON.stringify(payload)
       });
 
-      if (!res.ok) throw new Error("Error al actualizar la orden");
+      let data = null;
+      try { data = await res.json(); } catch(e){}
 
-      alert("Orden actualizada con éxito ✅");
+      if (!res.ok) {
+        const errorMessage = data?.message || data?.details || data?.error || "Error al actualizar la orden";
+        throw new Error(errorMessage);
+      }
+
+      showToast("Orden actualizada con éxito ✅", "success");
     } catch (err) {
       console.error(err);
-      alert("No se pudo actualizar la orden: " + err.message);
+      showToast("No se pudo actualizar la orden: " + err.message,"error");
     }
   }
 
   // ======== FILTRO DE PLATOS ========
-  if (searchPlatesInput) {
-    searchPlatesInput.addEventListener("input", () => {
+  if(searchPlatesInput){
+    searchPlatesInput.addEventListener("input",()=>{
       const term = searchPlatesInput.value.toLowerCase();
-      renderPlatosDisponibles(
-        platosDisponibles.filter(p => p.name.toLowerCase().includes(term))
-      );
+      renderPlatosDisponibles(platosDisponibles.filter(p => p.name.toLowerCase().includes(term)));
     });
   }
 
-  // ======== EVENTO GUARDAR ========
-  if (btnGuardar) btnGuardar.addEventListener("click", guardarCambios);
+  if(btnGuardar) btnGuardar.addEventListener("click", guardarCambios);
 
   // ======== INICIALIZACIÓN ========
-  (async () => {
+  (async ()=>{
     await fetchPlatos();
     await cargarOrden();
     lucide.createIcons();

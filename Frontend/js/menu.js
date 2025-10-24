@@ -384,6 +384,7 @@ function initOrderForm() {
             takeawayGroup.style.display = "none";
             addressGroup.style.display = "none";
             document.querySelector('input[name="deliveryType"][value="dinein"]').checked = true;
+            document.getElementById("cart-sidebar").classList.remove("open");
 
         } catch(err) {
             console.error(err);

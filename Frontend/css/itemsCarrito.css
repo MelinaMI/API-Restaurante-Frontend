@@ -47,6 +47,7 @@
   color: #333;
   font-family: inherit;
   box-sizing: border-box;
+  resize: none;
 }
 
 .form-group textarea {
@@ -61,7 +62,7 @@
 /* --- Botón de envío --- */
 .order-submit-btn {
   width: 100%;
-  padding: 15px 20px;
+  padding: 5px 5px;
   background: #ff8a00;
   color: white;
   border: none;
@@ -226,6 +227,7 @@
   border: 1px solid #ddd;
   font-family: inherit;
   color: #333;
+  resize: none;
 }
 
 .cart-item-note:focus {
